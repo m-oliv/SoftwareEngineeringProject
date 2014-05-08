@@ -7,5 +7,11 @@
 	<classpathentry kind="lib" path="C:/Users/Marlene/workspace/ClientDB/lib/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marlene/workspace/ClientDB/lib/mysql-connector-java-5.1.30-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marlene/workspace/ClientDB/lib/powermock-mockito-1.5.4-full.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.4.178.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="lib/mockito-all-1.9.5.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.30-bin.jar"/>
+	<classpathentry kind="lib" path="lib/powermock-mockito-1.5.4-full.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
