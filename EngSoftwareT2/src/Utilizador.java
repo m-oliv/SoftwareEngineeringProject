@@ -25,4 +25,18 @@ public class Utilizador {
 		String sqlQuery = "INSERT INTO utilizadores VALUES( " + id + ", '" + nome + "')";
 		stmt.execute(sqlQuery);
 	}
+
+	public void updateNameDB(DBAccess dba, String n, int i) throws SQLException {
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "UPDATE utilizadores SET nome = '" + n + "' WHERE id = "+ i;
+		stmt.execute(sqlQuery);
+	}
+
+	public void updateIDDB(DBAccess dba, String n, int i) throws SQLException {
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "UPDATE utilizadores SET id = " + i + " WHERE nome = '"+ n +"'";
+		stmt.execute(sqlQuery);
+	}
 }
