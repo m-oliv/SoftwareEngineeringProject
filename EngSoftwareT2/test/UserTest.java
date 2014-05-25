@@ -30,7 +30,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testNamePersist() throws ClassNotFoundException, SQLException{
+	public void testAddUserName() throws ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
@@ -47,7 +47,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testIDPersist() throws ClassNotFoundException, SQLException{
+	public void testAddUserID() throws ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
@@ -63,18 +63,8 @@ public class UserTest {
 		assertEquals(x,"1");
 	}
 	
-	@Test (expected = SQLException.class)
-	public void testInsertDuplicate() throws ClassNotFoundException, SQLException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Utilizador u = new Utilizador(1,"Nuno");
-		u.addUser(dba);
-		Utilizador u2 = new Utilizador(1,"Joao");
-		u2.addUser(dba);
-	}
-	
 	@Test
-	public void testNameUpdate() throws ClassNotFoundException, SQLException{
+	public void testUpdateName() throws ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
@@ -92,7 +82,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testIDUpdate() throws ClassNotFoundException, SQLException{
+	public void testUpdateID() throws ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
@@ -126,4 +116,35 @@ public class UserTest {
 		assertTrue(x==0);
 	}
 	
+	@Test (expected = NullPointerException.class)
+	public void testNameNullObj(){
+		Utilizador u = new Utilizador(1,null);
+	}
+	
+	@Test (expected = SQLException.class)
+	public void testInsertDuplicate() throws ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Utilizador u2 = new Utilizador(1,"Joao");
+		u2.addUser(dba);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testAddUserNullName() throws SQLException, ClassNotFoundException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,null);
+		u.addUser(dba);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testUpdateUserNullName() throws ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		u.updateUser(dba,0,null,2);
+	}
 }

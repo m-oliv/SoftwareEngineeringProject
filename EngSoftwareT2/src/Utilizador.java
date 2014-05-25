@@ -7,6 +7,9 @@ public class Utilizador {
 	private String nome;
 	
 	public Utilizador(int i, String n){
+		if(n.equals(null)){
+			throw new NullPointerException();
+		}
 		this.id = i;
 		this.nome = n;
 	}
@@ -20,10 +23,15 @@ public class Utilizador {
 	}
 	
 	public void addUser(DBAccess dbaccess) throws SQLException{
-		Connection conn = dbaccess.getConnection();
-		Statement stmt = conn.createStatement();
-		String sqlQuery = "INSERT INTO utilizadores VALUES( " + id + ", '" + nome + "')";
-		stmt.execute(sqlQuery);
+		if(nome.equals(null)){
+			throw new NullPointerException();
+		}
+		else{
+			Connection conn = dbaccess.getConnection();
+			Statement stmt = conn.createStatement();
+			String sqlQuery = "INSERT INTO utilizadores VALUES( " + id + ", '" + nome + "')";
+			stmt.execute(sqlQuery);
+		}
 	}
 	public void updateUser(DBAccess dba, int to_upd,String n, int i) throws SQLException{
 		
@@ -37,8 +45,13 @@ public class Utilizador {
 		
 		// update nome
 		if(to_upd == 0){
-			String sqlQuery = "UPDATE utilizadores SET nome = '" + n + "' WHERE id = "+ i;
-			stmt.execute(sqlQuery);
+			if(n.equals(null)){
+				throw new NullPointerException();
+			}
+			else{
+				String sqlQuery = "UPDATE utilizadores SET nome = '" + n + "' WHERE id = "+ i;
+				stmt.execute(sqlQuery);
+			}
 		}
 		
 		// update id
