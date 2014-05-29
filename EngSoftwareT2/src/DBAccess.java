@@ -31,4 +31,11 @@ public class DBAccess {
 //				+ "primary key(id, id_user), foreign key(id_user) references utilizadores(id))";
 //		stmt2.execute(sqlQuery2);
 	}
+	
+	public void runQuery(String query) throws SQLException{
+		Statement stmt = getConnection().createStatement();
+		stmt.execute(query);
+		
+	}
+	
 }
