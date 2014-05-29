@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
-
 public class UserTest {
 
 	/* Testar por:
