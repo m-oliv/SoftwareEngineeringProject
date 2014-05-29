@@ -7,7 +7,7 @@ public class Documento {
 	private int id;
 	private String title;
 	private String body;
-	private Date inputdate;
+	private Date inputdat;
 	
 	public Documento(int i, String n, String b){
 		if(n.equals(null)){
