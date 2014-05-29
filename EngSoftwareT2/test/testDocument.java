@@ -8,6 +8,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 */
 public class testDocument {
+	/* Ignorar este or agora*/
 	@Test
 	public void privateMethod() throws Exception
 	{		
