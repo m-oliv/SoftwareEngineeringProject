@@ -62,4 +62,7 @@ public class Utilizador {
 		dba.runQuery(sqlQuery);
 	}
 
+	public String toString(){
+		return "ID: "+id+"; Nome: "+nome+";";
+	}
 }

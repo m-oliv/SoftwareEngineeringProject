@@ -146,4 +146,28 @@ public class UserTest {
 		u.addUser(dba);
 		u.updateUser(dba,0,null,2);
 	}
+	
+	@Test
+	public void testListUser() throws ClassNotFoundException, SQLException{
+
+		//rever
+		
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "select id,nome from utilizadores where id = 1";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		int x = 0;
+		String y = "";
+		while(rs.next()){
+			 x = rs.getInt("id");
+			 y = rs.getString("nome");
+		}
+	
+		Utilizador u_new = new Utilizador(x,y);
+		assertEquals(u_new.toString(),"ID: "+x+"; Nome: "+y+";");
+	}
 }
