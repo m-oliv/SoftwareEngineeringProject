@@ -81,23 +81,23 @@ public class UserTest {
 		assertEquals(x,"Marlene");
 	}
 	
-	@Test
-	public void testUpdateID() throws ClassNotFoundException, SQLException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Utilizador u = new Utilizador(1,"Nuno");
-		u.addUser(dba);
-		u.updateUser(dba,1,"Nuno",2);
-		Connection conn = dba.getConnection();
-		Statement stmt = conn.createStatement();
-		String sqlQuery = "select id from utilizadores;";
-		ResultSet rs = stmt.executeQuery(sqlQuery);
-		String x = "";
-		while(rs.next()){
-			 x = rs.getString("id");
-		}
-		assertEquals(x,"2");
-	}
+//	@Test
+//	public void testUpdateID() throws ClassNotFoundException, SQLException{
+//		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+//		dba.initialize();
+//		Utilizador u = new Utilizador(1,"Nuno");
+//		u.addUser(dba);
+//		u.updateUser(dba,1,"Nuno",2);
+//		Connection conn = dba.getConnection();
+//		Statement stmt = conn.createStatement();
+//		String sqlQuery = "select id from utilizadores;";
+//		ResultSet rs = stmt.executeQuery(sqlQuery);
+//		String x = "";
+//		while(rs.next()){
+//			 x = rs.getString("id");
+//		}
+//		assertEquals(x,"2");
+//	}
 	
 	@Test 
 	public void testDelete() throws ClassNotFoundException, SQLException{
