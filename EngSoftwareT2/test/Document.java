@@ -1,10 +1,10 @@
 
 import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import org.junit.Test;
+
 public class Document 
 {
 	/*
@@ -13,7 +13,7 @@ public class Document
 	private String title;
 	private String body;
 //	private Timestamp creation;
-//  private String user; //Temporary; user is meant to be a data type
+//	private String user; //Temporary; user is meant to be a data type
 	private String readValue=null;
 	private File documentFile;
 	private String filepath="c:/documento.txt";
@@ -126,6 +126,7 @@ public class Document
 		System.out.println(title);
 		System.out.println(body);
 		System.out.println(filepath);
+		System.out.println(body.indexOf("justo vitae"));
 	}
 	
 }
