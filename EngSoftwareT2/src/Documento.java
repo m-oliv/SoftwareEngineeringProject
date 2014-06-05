@@ -1,4 +1,4 @@
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +11,7 @@ public class Documento {
 	private Timestamp d_alteracao;
 	private int id_user=0;
 	
-	public Documento(int id, String title, String body, Timestamp d_criacao,Timestamp d_alteracao, int id_user){
+	public Documento(int id, String title, String body, Timestamp timestamp, int id_user){
 		if(title.equals(null)){
 			throw new NullPointerException();
 		}
@@ -21,8 +21,7 @@ public class Documento {
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.d_criacao = d_criacao;
-		this.d_alteracao = d_alteracao;
+		this.d_criacao = timestamp;
 		this.id_user = id_user;
 	}
 	

@@ -1,6 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,20 +20,42 @@ public class DocumentoTest {
 	
 	@Test
 	public void testNameInObj() {
-		Documento u = new Documento(1,"ola","adeus");
+		Date dat= new Date(0);
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		assertEquals(u.getTitle(),"ola");
 	}
 	
 	@Test
 	public void testIDInObj() {
-		Documento u = new Documento(1,"ola","adeus");
+		Date dat= new Date(0);
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		assertEquals(u.getID(),1);
 	}
 	
 	@Test
 	public void testBodyInObj() {
-		Documento u = new Documento(1,"ola","adeus");
-		assertEquals(u.getBody(),1);
+		Date dat= new Date(0);
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola","adeus",new Timestamp(datelong), 1);
+		assertEquals(u.getBody(),"adeus");
+	}
+	
+	@Test
+	public void testID_userInObj() {
+		Date dat= new Date(0);
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		assertEquals(u.getUser(),1);
+	}
+	
+	@Test
+	public void testD_criacaoInObj() {
+		Date dat= new Date(0);
+		long datelong= dat.getTime();
+			Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+			assertEquals(u.getD_criacao(),1);
 	}
 	
 	@Test
