@@ -13,7 +13,7 @@ public class ActualDocument {
 	private String body;   
 	private Timestamp creation;
 	private Timestamp modification;
-//	private String user; //Temporary; user is meant to be a data type
+//	private String user;    //Temporary; user is meant to be a data type
 	private String readValue=null;
 	private File documentFile;
 	private String filepath;
