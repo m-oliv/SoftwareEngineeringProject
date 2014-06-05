@@ -11,11 +11,17 @@ public class Documento {
 	private Timestamp d_alteracao;
 	private int id_user=-1;
 	
-	public Documento(int id, String title, String body, Timestamp timestamp, int id_user){
+	public Documento(int id, String title, String body, Timestamp timestamp, int id_user) throws Exception{
 		if(title.equals(null)){
 			throw new NullPointerException();
 		}
 		if(body.equals(null)){
+			throw new NullPointerException();
+		}
+		if(id_user==-1){
+			throw new Exception("id_user wrong");
+		}
+		if(timestamp.equals(null)){
 			throw new NullPointerException();
 		}
 		this.id = id;
@@ -47,22 +53,30 @@ public class Documento {
 		return d_alteracao;
 	}
 	
-	public void addDoc(DBAccess dbaccess) throws SQLException{
+	public void addDoc(DBAccess dbaccess) throws Exception{
 		if(title.equals(null)){
+			throw new NullPointerException();
+		}
+		if(body.equals(null)){
+			throw new NullPointerException();
+		}
+		if(id_user==-1){
+			throw new Exception("id_user wrong");
+		}
+		if(d_criacao.equals(null)){
 			throw new NullPointerException();
 		}
 		else{
 			Connection conn = dbaccess.getConnection();
 			Statement stmt = conn.createStatement();
-			String sqlQuery = "INSERT INTO documentos VALUES( " + id + ", '" + title + "','" + body  + "', '" + d_criacao + "','" + d_alteracao + "', " + id_user + ")";
+			String sqlQuery = "INSERT INTO documentos VALUES( " + id + ", '" + title + "','" + body  + "', '" + d_criacao + "','" + d_criacao + "', " + id_user + ")";
 			stmt.execute(sqlQuery);
 		}
 	}
-	public void updateDoc(DBAccess dba, int to_upd,String n, int user, int i,Timestamp d_alteracao) throws SQLException{
+	public void updateDoc(DBAccess dba, int to_upd,String n, int id_user, int i,Timestamp d_alteracao) throws Exception{
 		
 		/* Se to_upd for:
 		 *  0 -> update title
-		 *  1 -> update id
 		 *  2 -> update body
 		 *  3 -> update user?
 		 */
@@ -84,11 +98,7 @@ public class Documento {
 			}
 		}
 		
-		// update id
-		if(to_upd == 1){
-			String sqlQuery = "UPDATE documentos SET id = " + i + " WHERE nome = '"+ n +"'";
-			stmt.execute(sqlQuery);
-		}
+	
 		
 		//update body
 		if(to_upd == 2){
@@ -105,11 +115,11 @@ public class Documento {
 		
 		//update id_user
 		if(to_upd == 3){
-			if(user==0){
-				throw new NullPointerException();
+			if(id_user==-1){
+				throw new Exception("id_user wrong");
 			}
 			else{
-				String sqlQuery = "UPDATE documentos SET id_user = '" + n + "' WHERE id = "+ i;
+				String sqlQuery = "UPDATE documentos SET id_user = '" + id_user + "' WHERE id = "+ i;
 				stmt.execute(sqlQuery);
 				String sqlQuerytime_update = "UPDATE documentos SET d_alteracao = '" + d_alteracao + "' WHERE id = "+ i;
 				stmt.execute(sqlQuerytime_update);

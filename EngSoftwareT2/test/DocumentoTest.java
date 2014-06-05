@@ -19,124 +19,257 @@ public class DocumentoTest {
 	 */
 	
 	@Test
-	public void testNameInObj() {
-		Date dat= new Date(0);
+	public void testNameInObj() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
 		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		assertEquals(u.getTitle(),"ola");
 	}
 	
 	@Test
-	public void testIDInObj() {
-		Date dat= new Date(0);
+	public void testIDInObj() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
 		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		assertEquals(u.getID(),1);
 	}
 	
 	@Test
-	public void testBodyInObj() {
-		Date dat= new Date(0);
+	public void testBodyInObj() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
 		Documento u = new Documento(1,"ola","adeus",new Timestamp(datelong), 1);
 		assertEquals(u.getBody(),"adeus");
 	}
 	
 	@Test
-	public void testID_userInObj() {
-		Date dat= new Date(0);
+	public void testID_userInObj() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
 		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		assertEquals(u.getUser(),1);
 	}
 	
 	@Test
-	public void testD_criacaoInObj() {
-		Date dat= new Date(0);
+	public void testD_criacaoInObj() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
-			Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
-			assertEquals(u.getD_criacao(),1);
+		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		assertEquals(u.getD_criacao(),new Timestamp(datelong));
 	}
 	
 	@Test
-	public void testAddUserName() throws ClassNotFoundException, SQLException{
+	public void testAddDocTitle() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		//utilizador para pasar o id
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		String sqlQuery = "select title from documentos;";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		String x = "";
+		while(rs.next()){
+			 x = rs.getString("title");
+		}
+		assertEquals(x,"ola");
+	}
+	
+	
+	@Test
+	public void testAddDocBody() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		//utilizador para pasar o id
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		String sqlQuery = "select body from documentos;";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		String x = "";
+		while(rs.next()){
+			 x = rs.getString("body");
+		}
+		assertEquals(x,"adeus");
+	}
+	@Test
+	public void testAddDocID() throws Exception,ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
+		
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
-		String sqlQuery = "select nome from utilizadores;";
+		String sqlQuery = "select id from documentos;";
 		ResultSet rs = stmt.executeQuery(sqlQuery);
-		String x = "";
+		int x = 0;
 		while(rs.next()){
-			 x = rs.getString("nome");
+			 x = rs.getInt("id");
 		}
-		assertEquals(x,"Nuno");
+		assertEquals(x,1);
 	}
 	
 	@Test
-	public void testAddUserID() throws ClassNotFoundException, SQLException{
+	public void testAddDocTimestamp() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		//utilizador para pasar o id
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		String sqlQuery = "select d_criacao from documentos;";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		Timestamp x= new Timestamp(0);
+		while(rs.next()){
+			 x = rs.getTimestamp("d_criacao");
+		}
+		assertEquals(x, new Timestamp(datelong));
+	}
+	
+	@Test
+	public void testAddDocID_user() throws Exception,ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
+		
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
-		String sqlQuery = "select id from utilizadores;";
+		String sqlQuery = "select id_user from documentos;";
 		ResultSet rs = stmt.executeQuery(sqlQuery);
-		String x = "";
+		int x = 0;
 		while(rs.next()){
-			 x = rs.getString("id");
+			 x = rs.getInt("id_user");
 		}
-		assertEquals(x,"1");
+		assertEquals(x,1);
 	}
 	
+	
 	@Test
-	public void testUpdateName() throws ClassNotFoundException, SQLException{
+	public void testUpdateTitle() throws Exception,ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
-		u.updateUser(dba,0,"Marlene",1);
+		
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.updateDoc(dba, 0, "OLA", 1, 1,new Timestamp(datelong));
+		
+		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
-		String sqlQuery = "select nome from utilizadores;";
+		String sqlQuery = "select title from documentos;";
 		ResultSet rs = stmt.executeQuery(sqlQuery);
 		String x = "";
 		while(rs.next()){
-			 x = rs.getString("nome");
+			 x = rs.getString("title");
 		}
-		assertEquals(x,"Marlene");
+		assertEquals(x,"OLA");
 	}
 	
 	@Test
-	public void testUpdateID() throws ClassNotFoundException, SQLException{
+	public void testUpdateBody() throws Exception,ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
-		u.updateUser(dba,1,"Nuno",2);
+		
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.updateDoc(dba, 2, "ADEUS", 1, 1,new Timestamp(datelong));
+		
+		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
-		String sqlQuery = "select id from utilizadores;";
+		String sqlQuery = "select body from documentos;";
 		ResultSet rs = stmt.executeQuery(sqlQuery);
 		String x = "";
 		while(rs.next()){
-			 x = rs.getString("id");
+			 x = rs.getString("body");
 		}
-		assertEquals(x,"2");
+		assertEquals(x,"ADEUS");
+	}
+	
+	@Test
+	public void testUpdateID_user() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Utilizador u1 = new Utilizador(2,"Nuna");
+		u1.addUser(dba);
+
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		
+		
+		//mudar o user
+		d.updateDoc(dba, 3, null, 2, 1,new Timestamp(datelong));
+		
+		
+		
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "select id_user from documentos;";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		int x = -1;
+		while(rs.next()){
+			 x = rs.getInt("id_user");
+		}
+		assertEquals(x,2);
 	}
 	
 	@Test 
-	public void testDelete() throws ClassNotFoundException, SQLException{
+	public void testDeleteDoc() throws Exception, ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
-		u.deleteUser(dba,1);
+		u.addUser(dba);
+
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.deleteDoc(dba, 1);
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
-		String sqlQuery = "select count(nome) from utilizadores where id = 1;";
+		String sqlQuery = "select count(title) from documentos where id = 1;";
 		ResultSet rs = stmt.executeQuery(sqlQuery);
 		int x = 0;
 		while(rs.next()){
@@ -146,34 +279,119 @@ public class DocumentoTest {
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testNameNullObj(){
-		Utilizador u = new Utilizador(1,null);
+	public void testTitleNullObj()throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,null,"adeus", new Timestamp(datelong), 1);
+	}
+	@Test (expected = NullPointerException.class)
+	public void testBodyNullObj()throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola",null, new Timestamp(datelong), 1);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testD_criacaoNullObj()throws Exception {
+		Documento u = new Documento(1,"ola","adeus", null, 1);
+	
+	}
+	
+	@Test (expected = Exception.class)
+	public void testNameNullObj()throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), -1);
+	
 	}
 	
 	@Test (expected = SQLException.class)
-	public void testInsertDuplicate() throws ClassNotFoundException, SQLException{
+	public void testInsertDuplicate() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d1 = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d1.addDoc(dba);
+		Documento d2 = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d2.addDoc(dba);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testAddDocNullTitle() throws Exception, SQLException, ClassNotFoundException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d1 = new Documento(1,null,"adeus", new Timestamp(datelong), 1);
+		d1.addDoc(dba);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testAddDocNullBody() throws Exception, SQLException, ClassNotFoundException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d1 = new Documento(1,"ola",null, new Timestamp(datelong), 1);
+		d1.addDoc(dba);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testAddDocNullD_criacao() throws Exception, SQLException, ClassNotFoundException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Documento d1 = new Documento(1,"ola","adeus", null, 1);
+		d1.addDoc(dba);
+	}
+	
+	@Test (expected = Exception.class)
+	public void testAddDocNullId_user() throws Exception, SQLException, ClassNotFoundException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d1 = new Documento(1,"ola","adeus", new Timestamp(datelong), -1);
+		d1.addDoc(dba);
+	}
+
+	
+	@Test (expected = NullPointerException.class)
+	public void testUpdateDocNullTitle() throws Exception, ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
-		Utilizador u2 = new Utilizador(1,"Joao");
-		u2.addUser(dba);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.updateDoc(dba, 0, null, 1, 1,new Timestamp(datelong));
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testAddUserNullName() throws SQLException, ClassNotFoundException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Utilizador u = new Utilizador(1,null);
-		u.addUser(dba);
-	}
-	
-	@Test (expected = NullPointerException.class)
-	public void testUpdateUserNullName() throws ClassNotFoundException, SQLException{
+	public void testUpdateDocNullBody() throws Exception, ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
-		u.updateUser(dba,0,null,2);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.updateDoc(dba, 2, null, 1, 1,new Timestamp(datelong));
+	}
+	@Test (expected = Exception.class)
+	public void testUpdateDocNullD_criacao() throws Exception, ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		d.updateDoc(dba, 3, null, -1, 1,new Timestamp(datelong));
 	}
 }
