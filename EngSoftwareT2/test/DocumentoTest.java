@@ -255,6 +255,38 @@ public class DocumentoTest {
 		assertEquals(x,2);
 	}
 	
+	@Test
+	public void testUpdateD_alteracao() throws Exception,ClassNotFoundException, SQLException{
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
+	
+
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		d.addDoc(dba);
+		
+		
+	//mudar o user
+		
+		Timestamp test=new Timestamp(datelong);
+		d.updateDoc(dba, 1, "OLA", 1, 1,test);
+		
+		
+		
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "select d_alteracao from documentos;";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		Timestamp temp=new Timestamp(0);
+		while(rs.next()){
+			 temp = rs.getTimestamp("d_alteracao");
+		}
+		assertEquals(temp,test);
+	}
+	
 	@Test 
 	public void testDeleteDoc() throws Exception, ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
