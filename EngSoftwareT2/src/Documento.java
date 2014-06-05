@@ -7,10 +7,11 @@ public class Documento {
 	private int id;
 	private String title;
 	private String body;
-	private Timestamp time;
-	private String user;
+	private Timestamp d_criacao;
+	private Timestamp d_alteracao;
+	private int id_user=0;
 	
-	public Documento(int id, String title, String body, Timestamp time, String user){
+	public Documento(int id, String title, String body, Timestamp d_criacao,Timestamp d_alteracao, int id_user){
 		if(title.equals(null)){
 			throw new NullPointerException();
 		}
@@ -20,8 +21,9 @@ public class Documento {
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.time = time;
-		this.user = user;
+		this.d_criacao = d_criacao;
+		this.d_alteracao = d_alteracao;
+		this.id_user = id_user;
 	}
 	
 	public String getTitle(){
@@ -34,11 +36,16 @@ public class Documento {
 	public int getID(){
 		return id;
 	}
-	public String getUser(){
-		return user;
+	public int getUser(){
+		return id_user;
 	}
-	public Timestamp getTime(){
-		return time;
+	
+	public Timestamp getD_criacao(){
+		return d_criacao;
+	}
+	
+	public Timestamp getD_alteracao(){
+		return d_alteracao;
 	}
 	
 	public void addDoc(DBAccess dbaccess) throws SQLException{
@@ -48,17 +55,17 @@ public class Documento {
 		else{
 			Connection conn = dbaccess.getConnection();
 			Statement stmt = conn.createStatement();
-			String sqlQuery = "INSERT INTO documentos VALUES( " + id + ", '" + title + "','" + body  + "', '" + time + "', '" + user + "')";
+			String sqlQuery = "INSERT INTO documentos VALUES( " + id + ", '" + title + "','" + body  + "', '" + d_criacao + "','" + d_alteracao + "', " + id_user + ")";
 			stmt.execute(sqlQuery);
 		}
 	}
-	public void updateDoc(DBAccess dba, int to_upd,String n, int i) throws SQLException{
+	public void updateDoc(DBAccess dba, int to_upd,String n, int user, int i,Timestamp d_alteracao) throws SQLException{
 		
 		/* Se to_upd for:
 		 *  0 -> update title
 		 *  1 -> update id
 		 *  2 -> update body
-		 *  3 -> updete user?
+		 *  3 -> update user?
 		 */
 		
 		Connection conn = dba.getConnection();
@@ -69,9 +76,12 @@ public class Documento {
 			if(n.equals(null)){
 				throw new NullPointerException();
 			}
+			
 			else{
 				String sqlQuery = "UPDATE documentos SET title = '" + n + "' WHERE id = "+ i;
 				stmt.execute(sqlQuery);
+				String sqlQuerytime_update = "UPDATE documentos SET d_alteracao = '" + d_alteracao + "' WHERE id = "+ i;
+				stmt.execute(sqlQuerytime_update);
 			}
 		}
 		
@@ -87,15 +97,19 @@ public class Documento {
 			else{
 				String sqlQuery = "UPDATE documentos SET body = '" + n + "' WHERE id = "+ i;
 				stmt.execute(sqlQuery);
+				String sqlQuerytime_update = "UPDATE documentos SET d_alteracao = '" + d_alteracao + "' WHERE id = "+ i;
+				stmt.execute(sqlQuerytime_update);
 			}
 		}
 		if(to_upd == 3){
-			if(n.equals(null)){
+			if(user==0){
 				throw new NullPointerException();
 			}
 			else{
-				String sqlQuery = "UPDATE documentos SET user = '" + n + "' WHERE id = "+ i;
+				String sqlQuery = "UPDATE documentos SET id_user = '" + n + "' WHERE id = "+ i;
 				stmt.execute(sqlQuery);
+				String sqlQuerytime_update = "UPDATE documentos SET d_alteracao = '" + d_alteracao + "' WHERE id = "+ i;
+				stmt.execute(sqlQuerytime_update);
 			}
 		}
 	}
