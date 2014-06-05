@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -169,5 +170,48 @@ public class UserTest {
 	
 		Utilizador u_new = new Utilizador(x,y);
 		assertEquals(u_new.toString(),"ID: "+x+"; Nome: "+y+";");
+	}
+	
+	@Test
+	public void testListSeveralUsers() throws ClassNotFoundException, SQLException{
+		int id_u = 0;
+		String nome_u = "";
+		
+		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
+		dba.initialize();
+		
+		Utilizador u1 = new Utilizador(1,"Nuno");
+		Utilizador u2 = new Utilizador(2,"Ana");
+		Utilizador u3 = new Utilizador(3,"Maria");
+		Utilizador u4 = new Utilizador(4,"Joao");
+		
+		ArrayList<Utilizador> a_users = new ArrayList<Utilizador>();
+		ArrayList<Utilizador> a_users_db = new ArrayList<Utilizador>();
+		a_users.add(u1);
+		a_users.add(u2);
+		a_users.add(u3);
+		a_users.add(u4);
+		
+		u1.addUser(dba);
+		u2.addUser(dba);
+		u3.addUser(dba);
+		u4.addUser(dba);
+		
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		String sqlQuery = "select id,nome from utilizadores";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		
+		while(rs.next()){
+			 id_u = rs.getInt("id");
+			 nome_u = rs.getString("nome");
+			 Utilizador u = new Utilizador(id_u,nome_u);
+			 a_users_db.add(u);
+			 id_u = 0;
+			 nome_u = "";
+		}
+		
+		assertEquals(a_users.toString(),a_users_db.toString());
+		
 	}
 }
