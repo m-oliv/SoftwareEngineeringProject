@@ -9,7 +9,7 @@ public class Documento {
 	private String body;
 	private Timestamp d_criacao;
 	private Timestamp d_alteracao;
-	private int id_user=0;
+	private int id_user=-1;
 	
 	public Documento(int id, String title, String body, Timestamp timestamp, int id_user){
 		if(title.equals(null)){
@@ -89,6 +89,8 @@ public class Documento {
 			String sqlQuery = "UPDATE documentos SET id = " + i + " WHERE nome = '"+ n +"'";
 			stmt.execute(sqlQuery);
 		}
+		
+		//update body
 		if(to_upd == 2){
 			if(n.equals(null)){
 				throw new NullPointerException();
@@ -100,6 +102,8 @@ public class Documento {
 				stmt.execute(sqlQuerytime_update);
 			}
 		}
+		
+		//update id_user
 		if(to_upd == 3){
 			if(user==0){
 				throw new NullPointerException();
