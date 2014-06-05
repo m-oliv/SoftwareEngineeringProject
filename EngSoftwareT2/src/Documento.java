@@ -1,13 +1,15 @@
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Documento {
 	private int id;
 	private String title;
 	private String body;
-	private Date inputdate;
+	private Calendar inputdate;
 	
 	public Documento(int i, String n, String b){
 		if(n.equals(null)){

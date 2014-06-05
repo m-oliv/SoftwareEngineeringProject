@@ -24,13 +24,13 @@ public class DocumentoTest {
 	
 	@Test
 	public void testIDInObj() {
-		Utilizador u = new Utilizador(1,"ola","adeus");
+		Documento u = new Documento(1,"ola","adeus");
 		assertEquals(u.getID(),1);
 	}
 	
 	@Test
 	public void testBodyInObj() {
-		Utilizador u = new Utilizador(1,"ola","adeus");
+		Documento u = new Documento(1,"ola","adeus");
 		assertEquals(u.getBody(),1);
 	}
 	
