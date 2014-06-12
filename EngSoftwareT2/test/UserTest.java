@@ -104,6 +104,7 @@ public class UserTest {
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
+		u.addUser(dba);
 		u.deleteUser(dba,1);
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
