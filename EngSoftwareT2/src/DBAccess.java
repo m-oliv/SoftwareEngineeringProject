@@ -35,7 +35,7 @@ public class DBAccess {
 	public void runQuery(String query) throws SQLException{
 		Statement stmt = getConnection().createStatement();
 		stmt.execute(query);
-		
 	}
+	
 	
 }
