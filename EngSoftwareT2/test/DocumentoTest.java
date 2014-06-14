@@ -10,7 +10,7 @@ import java.sql.Statement;
 import org.junit.Test;
 
 public class DocumentoTest {
-//ola
+//olaola
 	/* Testar por:
 	 * - nulls (nomes e ids) -> delete user.
 	 * - valores diferentes (nomes e ids) -> update user
