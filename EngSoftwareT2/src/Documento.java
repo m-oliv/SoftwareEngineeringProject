@@ -13,7 +13,7 @@ public class Documento {
 	private Timestamp d_criacao;
 	private Timestamp d_alteracao;
 	private int id_user = -1;
-	
+
 	private String readValue=null;
 	private File documentFile;
 
@@ -36,7 +36,7 @@ public class Documento {
 		this.d_criacao = timestamp;
 		this.id_user = id_user;
 	}
-	
+
 	/*OVERLOAD: Versão que carrega com filepath em vez de hard coded title e body*/
 	public Documento(int id, String filepath, Timestamp timestamp, int id_user) throws Exception {
 		if (id_user == -1) {
@@ -87,7 +87,7 @@ public class Documento {
 				e.printStackTrace();
 		    }
 		}
-		
+
 	}
 
 	public String getTitle() {
@@ -257,7 +257,7 @@ public class Documento {
 		String sqlQuery = "DELETE FROM documentos WHERE id = " + i;
 		stmt.execute(sqlQuery);
 	}
-	
+
 	public String toString(){
 		return "Título: "+this.title+"; Id do doc: "+id+"; Id do user: "+id_user+id+"; Timestamp create: "+d_criacao;
 	}
