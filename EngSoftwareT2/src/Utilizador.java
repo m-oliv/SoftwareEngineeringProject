@@ -46,12 +46,7 @@ public class Utilizador {
 				dba.runQuery(sqlQuery);
 			}
 		}
-//		
-//		// update id
-//		if(to_upd == 1){
-//			String sqlQuery = "UPDATE utilizadores SET id = " + i + " WHERE nome = '"+ n +"'";
-//			dba.runQuery(sqlQuery);
-//		}
+
 	}
 
 	public void deleteUser(DBAccess dba, int i) throws SQLException {
