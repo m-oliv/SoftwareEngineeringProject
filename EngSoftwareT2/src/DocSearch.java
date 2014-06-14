@@ -20,7 +20,6 @@ public class DocSearch {
 		updateDB();
 		
 	}
-	
 	public void updateDB()
 	{
 		allDocs = new ArrayList<Documento>();
@@ -60,6 +59,9 @@ public class DocSearch {
 	
 	/*Procura no campo de título.*/
 	public ArrayList<Integer> searchTitles(String toSearch){
+		if(toSearch.equals(null)){
+			throw new NullPointerException();
+		}
 		
 		/*Para saber quanto anda no ciclo.*/
 		int nDocs=allDocs.size();
@@ -87,6 +89,9 @@ public class DocSearch {
 
 	
 	public ArrayList<Integer> searchBodies(String toSearch){
+		if(toSearch.equals(null)){
+			throw new NullPointerException();
+		}
 		
 		/*Para saber quanto anda no ciclo.*/
 		int nDocs=allDocs.size();
@@ -116,6 +121,9 @@ public class DocSearch {
 
 	
 	public ArrayList<Integer> searchGeneric(String toSearch){
+		if(toSearch.equals(null)){
+			throw new NullPointerException();
+		}
 
 		/*Para saber quanto anda no ciclo.*/
 		int nDocs=allDocs.size();
@@ -152,7 +160,10 @@ public class DocSearch {
 	}
 	
 
-	public ArrayList<String> searchGeneric(int toSearch){
+	public ArrayList<String> searchGeneric(int toSearch) throws Exception{
+		if(toSearch<0){
+			throw new NullPointerException();
+		}
 		
 		/*Para saber quanto anda no ciclo.*/
 		int nDocs=allDocs.size();
@@ -172,12 +183,17 @@ public class DocSearch {
 				docsContain.add(current.getTitle());
 			}
 		}
+		if(docsContain.size()==0)
+			throw new Exception("Document ID not listed on the database.");
 		/*Retorna arraylist dos documentos que contêm o que foi pesquisado. De momento, listados por título.*/
 		return docsContain;
 	}
 	
 	
 	public ArrayList<String> searchByDate(Timestamp toSearch){
+		if(toSearch.equals(null)){
+			throw new NullPointerException();
+		}
 		
 		/*Para saber quanto anda no ciclo.*/
 		int nDocs=allDocs.size();
@@ -213,5 +229,6 @@ public class DocSearch {
 		}
 		return result;
 	}
+
 
 }

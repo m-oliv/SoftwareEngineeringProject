@@ -1,5 +1,6 @@
 title:
 Lorem ipsum
+
 body:
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis
 eleifend justo vitae pulvinar. Morbi sagittis nisl sodales, egestas enim eu,
