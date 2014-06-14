@@ -18,7 +18,6 @@ public class SearchTest {
 		results = d.searchTitles("Lorem");
 		assertEquals(results.size(), 1);
 	}
-	
 
 	@Test
 	public void testBodySearch() throws ClassNotFoundException, SQLException {
@@ -95,7 +94,7 @@ public class SearchTest {
 			Documento d2 = new Documento(2, "tiitulo bonito", "body foleiro", new Timestamp(System.currentTimeMillis()), 1);
 			d2.addDoc(dbaccess);
 			//d2.addDoc(dbaccessMOCK);
-			Documento d3 = new Documento(3, "C:/documento.txt", new Timestamp(System.currentTimeMillis()), 1);
+			Documento d3 = new Documento(3, "C:\\documento.txt", new Timestamp(System.currentTimeMillis()), 1);
 			d3.addDoc(dbaccess);
 			//d3.addDoc(dbaccessMOCK);
 		} catch (Exception e) {
