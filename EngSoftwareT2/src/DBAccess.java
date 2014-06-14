@@ -22,14 +22,14 @@ public class DBAccess {
 	}
 	
 	public void initialize() throws SQLException{		
-		Statement stmt = getConnection().createStatement();
+		
 		String sqlQuery = "CREATE TABLE utilizadores (id int not null, nome varchar(255) not null, primary key(id))";
-		stmt.execute(sqlQuery);
-		Statement stmt2 = getConnection().createStatement();
+		runQuery(sqlQuery);
+		
 		String sqlQuery2 = "CREATE TABLE documentos (id int not null, title varchar(255), "
 				+ "body varchar(1000), d_criacao timestamp not null, d_alteracao timestamp not null, id_user int not null, "
 				+ "primary key(id, id_user), foreign key(id_user) references utilizadores(id))";
-		stmt2.execute(sqlQuery2);
+		runQuery(sqlQuery2);
 	}
 	
 	public void runQuery(String query) throws SQLException{
