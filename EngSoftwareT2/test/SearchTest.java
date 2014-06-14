@@ -26,6 +26,14 @@ public class SearchTest {
 		ArrayList<Integer> results = d.searchTitles("tiitulo");
 		assertEquals(results.size(), 2);
 	}
+	
+	@Test (expected=NullPointerException.class)
+	public void testTitleSearchNulls() throws ClassNotFoundException, SQLException {
+		//Testa pesquisa da string vazia
+		DBAccess dbaccess=populate();
+		DocSearch d = new DocSearch(dbaccess);
+		d.searchTitles(null);
+	}
 
 	@Test
 	public void testBodySearchMissing() throws ClassNotFoundException, SQLException {
@@ -157,6 +165,9 @@ public class SearchTest {
 			Documento d1 = new Documento(1, "tiitulo bonito", "body foleiro", new Timestamp(System.currentTimeMillis()), 1);
 			d1.addDoc(sourceDatabase);
 			Documento d2 = new Documento(2, "tiitulo bonito", "body foleiro", new Timestamp(System.currentTimeMillis()), 1);
+			d2.addDoc(sourceDatabase);
+			Documento d3 = new Documento(3, "docs/documento.txt", new Timestamp(System.currentTimeMillis()), 1);
+			d3.addDoc(sourceDatabase);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
