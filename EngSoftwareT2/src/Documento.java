@@ -1,7 +1,5 @@
 import java.sql.Timestamp;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Documento {
 	private int id;
