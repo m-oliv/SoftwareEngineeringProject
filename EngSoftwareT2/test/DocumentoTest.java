@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,34 +12,69 @@ import org.junit.Test;
 
 public class DocumentoTest {
 
-	/* Testar por:
-	 * - nulls (nomes e ids) -> delete user.
-	 * - valores diferentes (nomes e ids) -> update user
-	 * - excepcoes -> SQLException
-	 * - valores iguais ao esperado -> inserts / gets
-	 */
-	
-	@Test
-	public void testNameInObj() throws Exception {
+	@Test (expected=Exception.class)
+	public void testFilepathConstructor() throws Exception {
 		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
+		new Documento(1,"C:/NotAVirus.exe", new Timestamp(datelong), 1);
+	}
+
+	@Test (expected=Exception.class)
+	public void testFilepathConstructorNullFilepath() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		new Documento(1,null, new Timestamp(datelong), 1);
+	}
+
+	@Test (expected=FileNotFoundException.class)
+	public void testFilepathConstructorWrongDocumentName() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		new Documento(1,"C:/NotAVirus.txt", new Timestamp(datelong), 1);
+	}
+	
+	@Test
+	public void testTitleInObj() throws Exception {
+		// verificar se o titulo atribuido esta no objeto
+		
+		// obter uma data para criacao
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		
+		// criar um documento para o teste
 		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		
+		// verificar se o titulo e o pretendido
 		assertEquals(u.getTitle(),"ola");
 	}
 	
 	@Test
 	public void testIDInObj() throws Exception {
+		// verificar se o ID atribuido esta no objeto
+		
+		// obter uma data para criacao
 		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
+		
+		// criar um documento para o teste
 		Documento u = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
+		
+		// verificar se o ID obtido e o esperado
 		assertEquals(u.getID(),1);
 	}
 	
 	@Test
 	public void testBodyInObj() throws Exception {
+		// verificar se o corpo do documento atribuido esta no objeto
+		
+		// obter uma data para criacao
 		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
+		
+		// criar um documento para o teste
 		Documento u = new Documento(1,"ola","adeus",new Timestamp(datelong), 1);
+		
+		// verificar se o corpo do documento obtido e o pretendido
 		assertEquals(u.getBody(),"adeus");
 	}
 	
