@@ -165,15 +165,17 @@ public class Main {
 	private static void addDocToDatabase(DBAccess target, int docCount,
 			Scanner input) throws Exception {
 		System.out.println("---------------Manage Documents:Add---------------");
-		System.out.println("Input a file path.");
-		//le o input do utilizador
-		String fpath=input.next();
 		int convertedOption=-1;
-
+		String fpath;
 		while(convertedOption==-1)
 			try{
+				System.out.println("Input a file path.");
+				//le o input do utilizador
+				fpath=input.next();
+
 				//o input e to tipo string, mas id e inteiro, tem de ser convertido.
 				System.out.println("Input a user to associate with this document. (-1 to cancel)");
+
 				//le o input do utilizador
 				String userIDreply=input.next();
 				int userID=Integer.parseInt(userIDreply);
@@ -200,9 +202,6 @@ public class Main {
 			catch(FileNotFoundException fnfe){
 				//houve falha com a base de dados.
 				System.out.println("File does not exist.");
-				System.out.println("Input a file path.");
-				//le o input do utilizador
-				fpath=input.next();
 				convertedOption=-1;
 			}
 			catch(Exception e){
