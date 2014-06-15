@@ -92,7 +92,7 @@ public class UserTest {
 		u.addUser(dba);
 		
 		// atualizar o nome de utilizador
-		u.updateUser(dba,0,"Marlene",1);
+		u.updateUser(dba,"Marlene",1);
 		
 		// obter uma ligacao a BD
 		Connection conn = dba.getConnection();
@@ -106,7 +106,7 @@ public class UserTest {
 			 x = rs.getString("nome");
 		}
 		
-		// verificar se o nome obtido é o esperado
+		// verificar se o nome obtido e o esperado
 		assertEquals(x,"Marlene");
 	}
 
@@ -181,7 +181,7 @@ public class UserTest {
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
 		// atualizar o nome de utilizador com null
-		u.updateUser(dba,0,null,1);
+		u.updateUser(dba,null,1);
 	}
 	
 	@Test
@@ -197,34 +197,19 @@ public class UserTest {
 		Utilizador u = new Utilizador(1,"Nuno");
 		u.addUser(dba);
 		
-		// obter uma ligacao a BD
-		Connection conn = dba.getConnection();
-		Statement stmt = conn.createStatement();
-
-		// obter da BD a informacao do utilizador pretendido
-		String sqlQuery = "select id,nome from utilizadores where id = 1";
-		ResultSet rs = stmt.executeQuery(sqlQuery);
-		int x = 0;
-		String y = "";
-		while(rs.next()){
-			 x = rs.getInt("id");
-			 y = rs.getString("nome");
-		}
-	
-		// criar um novo utilizador com a informacao obtida da BD
-		Utilizador u_new = new Utilizador(x,y);
+		// Utilizador dummy para listagem
+		Utilizador list = new Utilizador();
+		
+		// obter o utilizador cujo ID e 1
+		String x = list.listOneUser(dba, 1);
 
 		// verificar se a informacao obtida e a pretendida
-		assertEquals(u_new.toString(),"ID: "+x+"; Nome: "+y+";");
+		assertEquals(u.toString(),x);
 	}
 	
 	@Test
 	public void testListSeveralUsers() throws ClassNotFoundException, SQLException{
 		// verificar se e possivel listar varios utilizadores
-		
-		// variaveis temporarias
-		int id_u = 0;
-		String nome_u = "";
 		
 		// Inicializar a BD H2 do sistema
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
@@ -239,9 +224,6 @@ public class UserTest {
 		// Criar uma arraylist com os utilizadores criados para o teste
 		ArrayList<Utilizador> a_users = new ArrayList<Utilizador>();
 		
-		// criar uma arraylist para guardar os utilizadores obtidos da BD
-		ArrayList<Utilizador> a_users_db = new ArrayList<Utilizador>();
-		
 		// adicionar os utilizadores criados a arraylist
 		a_users.add(u1);
 		a_users.add(u2);
@@ -254,26 +236,10 @@ public class UserTest {
 		u3.addUser(dba);
 		u4.addUser(dba);
 		
-		// obter uma ligacao a BD
-		Connection conn = dba.getConnection();
-		Statement stmt = conn.createStatement();
+		// Utilizador dummy para listagens
+		Utilizador list = new Utilizador();
 		
-		// obter a informacao dos utilizadores a partir da BD
-		String sqlQuery = "select id,nome from utilizadores";
-		ResultSet rs = stmt.executeQuery(sqlQuery);
-		
-		while(rs.next()){
-			// para cada utilizador, obter o ID e o nome
-			 id_u = rs.getInt("id");
-			 nome_u = rs.getString("nome");
-			 // criar um novo utilizador com a informacao obtida
-			 Utilizador u = new Utilizador(id_u,nome_u);
-			 // adicionar o utilizador a arraylist pretendida
-			 a_users_db.add(u);
-			 // reset as variaveis temporarias
-			 id_u = 0;
-			 nome_u = "";
-		}
+		ArrayList<Utilizador> a_users_db = list.listSeveralUsers(dba);
 		
 		// verificar se a informacao dos utilizadores obtidas e a esperada
 		assertEquals(a_users.toString(),a_users_db.toString());

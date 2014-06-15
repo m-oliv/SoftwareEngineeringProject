@@ -1,8 +1,16 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Utilizador {
 	private int id;
 	private String nome;
+	
+	public Utilizador(){
+		// para o caso em que so se pretende fazer listagens
+	}
 	
 	public Utilizador(int i, String n){
 		// cada utilizador tem um ID e um nome (o nome nao pode ser null)
@@ -37,7 +45,7 @@ public class Utilizador {
 		}
 	}
 	
-	public void updateUser(DBAccess dba, int to_upd,String n, int i) throws SQLException{
+	public void updateUser(DBAccess dba, String n, int i) throws SQLException{
 		
 		// actualizar um utilizador na base de dados (apenas o nome)
 		
@@ -63,4 +71,62 @@ public class Utilizador {
 		// retorna uma string com a informacao do utilizador
 		return "ID: "+id+"; Nome: "+nome+";";
 	}
+	
+	public String listOneUser(DBAccess dba, int id) throws SQLException{
+		// listar um utilizador
+		
+		// obter uma ligacao a BD
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+			
+		// obter da BD a informacao do utilizador pretendido
+		String sqlQuery = "select id,nome from utilizadores where id ="+id;
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+
+		int x = 0;
+		String y = "";
+		while(rs.next()){
+			 x = rs.getInt("id");
+			 y = rs.getString("nome");
+		}
+	
+		String u_list = "ID: "+x+"; Nome: "+y+";";
+		
+		return u_list;
+	}
+	
+	public ArrayList<Utilizador> listSeveralUsers(DBAccess dba) throws SQLException{
+		// listar varios utilizadores
+		
+		// variaveis temporarias
+		int id_u = 0;
+		String nome_u = "";
+		
+		// criar uma arraylist para guardar os utilizadores obtidos da BD
+		ArrayList<Utilizador> a_users_db = new ArrayList<Utilizador>();
+				
+		// obter uma ligacao a BD
+		Connection conn = dba.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		// obter a informacao dos utilizadores a partir da BD
+		String sqlQuery = "select id,nome from utilizadores";
+		ResultSet rs = stmt.executeQuery(sqlQuery);
+		
+		while(rs.next()){
+			// para cada utilizador, obter o ID e o nome
+			 id_u = rs.getInt("id");
+			 nome_u = rs.getString("nome");
+			 // criar um novo utilizador com a informacao obtida
+			 Utilizador u = new Utilizador(id_u,nome_u);
+			 // adicionar o utilizador a arraylist pretendida
+			 a_users_db.add(u);
+			 // reset as variaveis temporarias
+			 id_u = 0;
+			 nome_u = "";
+		}
+		return a_users_db;
+
+	}
+	
 }

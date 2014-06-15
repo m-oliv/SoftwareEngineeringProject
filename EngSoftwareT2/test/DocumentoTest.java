@@ -221,8 +221,8 @@ public class DocumentoTest {
 		long datelong= dat.getTime();
 		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		d.addDoc(dba);
-		d.updateDoc(dba, 0, "OLA", 1, 1,new Timestamp(datelong));
-		
+		//d.updateDoc(dba, 0, "OLA", 1, 1,new Timestamp(datelong));
+		d.updateDocTitle(dba,"OLA",1,new Timestamp(datelong));
 		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
@@ -246,7 +246,8 @@ public class DocumentoTest {
 		long datelong= dat.getTime();
 		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		d.addDoc(dba);
-		d.updateDoc(dba, 2, "ADEUS", 1, 1,new Timestamp(datelong));
+		//d.updateDoc(dba, 2, "ADEUS", 1, 1,new Timestamp(datelong));
+		d.updateDocBody(dba,"ADEUS",1,new Timestamp(datelong));
 		
 		
 		Connection conn = dba.getConnection();
@@ -276,9 +277,8 @@ public class DocumentoTest {
 		
 		
 		//mudar o user
-		d.updateDoc(dba, 3, null, 2, 1,new Timestamp(datelong));
-		
-		
+		//d.updateDoc(dba, 3, null, 2, 1,new Timestamp(datelong));
+		d.updateDocId_user(dba,2,1,new Timestamp(datelong));
 		
 		Connection conn = dba.getConnection();
 		Statement stmt = conn.createStatement();
@@ -308,7 +308,8 @@ public class DocumentoTest {
 	//mudar o user
 		
 		Timestamp test=new Timestamp(datelong);
-		d.updateDoc(dba, 1, "OLA", 1, 1,test);
+		//d.updateDoc(dba, 1, "OLA", 1, 1,test);
+		d.updateDocTitle(dba,"OLA",1,new Timestamp(datelong));
 		
 		
 		
@@ -435,7 +436,8 @@ public class DocumentoTest {
 		long datelong= dat.getTime();
 		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		d.addDoc(dba);
-		d.updateDoc(dba, 0, null, 1, 1,new Timestamp(datelong));
+		//d.updateDoc(dba, 0, null, 1, 1,new Timestamp(datelong));
+		d.updateDocTitle(dba,null,1,new Timestamp(datelong));
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -448,10 +450,11 @@ public class DocumentoTest {
 		long datelong= dat.getTime();
 		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		d.addDoc(dba);
-		d.updateDoc(dba, 2, null, 1, 1,new Timestamp(datelong));
+		//d.updateDoc(dba, 2, null, 1, 1,new Timestamp(datelong));
+		d.updateDocBody(dba,null,1,new Timestamp(datelong));
 	}
 	@Test (expected = Exception.class)
-	public void testUpdateDocNullD_criacao() throws Exception, ClassNotFoundException, SQLException{
+	public void testUpdateDocNullId_user() throws Exception, ClassNotFoundException, SQLException{
 		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
 		dba.initialize();
 		Utilizador u = new Utilizador(1,"Nuno");
@@ -460,6 +463,8 @@ public class DocumentoTest {
 		long datelong= dat.getTime();
 		Documento d = new Documento(1,"ola","adeus", new Timestamp(datelong), 1);
 		d.addDoc(dba);
-		d.updateDoc(dba, 3, null, -1, 1,new Timestamp(datelong));
+		//d.updateDoc(dba, 3, null, -1, 1,new Timestamp(datelong));
+		d.updateDocId_user(dba,-1,1,new Timestamp(datelong));
 	}
 }
+
