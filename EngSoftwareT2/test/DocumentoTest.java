@@ -12,11 +12,18 @@ import org.junit.Test;
 
 public class DocumentoTest {
 
+	@Test (expected=DocumentNotFormattedException.class)
+	public void testFilepathWrongContent() throws Exception {
+		Date dat= new Date(System.currentTimeMillis());
+		long datelong= dat.getTime();
+		new Documento(1,"docs/documento2.txt", new Timestamp(datelong), 1);
+	}
+	
 	@Test (expected=Exception.class)
 	public void testFilepathConstructor() throws Exception {
 		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
-		new Documento(1,"C:/NotAVirus.exe", new Timestamp(datelong), 1);
+		new Documento(1,"docs//NotAVirus.exe", new Timestamp(datelong), 1);
 	}
 
 	@Test (expected=Exception.class)
@@ -30,7 +37,7 @@ public class DocumentoTest {
 	public void testFilepathConstructorWrongDocumentName() throws Exception {
 		Date dat= new Date(System.currentTimeMillis());
 		long datelong= dat.getTime();
-		new Documento(1,"C:/NotAVirus.txt", new Timestamp(datelong), 1);
+		new Documento(1,"docs//NotAVirus.txt", new Timestamp(datelong), 1);
 	}
 	
 	@Test
@@ -387,44 +394,7 @@ public class DocumentoTest {
 		d2.addDoc(dba);
 	}
 	
-	@Test (expected = NullPointerException.class)
-	public void testAddDocNullTitle() throws Exception, SQLException, ClassNotFoundException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Date dat= new Date(System.currentTimeMillis());
-		long datelong= dat.getTime();
-		Documento d1 = new Documento(1,null,"adeus", new Timestamp(datelong), 1);
-		d1.addDoc(dba);
-	}
 	
-	@Test (expected = NullPointerException.class)
-	public void testAddDocNullBody() throws Exception, SQLException, ClassNotFoundException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Date dat= new Date(System.currentTimeMillis());
-		long datelong= dat.getTime();
-		Documento d1 = new Documento(1,"ola",null, new Timestamp(datelong), 1);
-		d1.addDoc(dba);
-	}
-	
-	@Test (expected = NullPointerException.class)
-	public void testAddDocNullD_criacao() throws Exception, SQLException, ClassNotFoundException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Documento d1 = new Documento(1,"ola","adeus", null, 1);
-		d1.addDoc(dba);
-	}
-	
-	@Test (expected = Exception.class)
-	public void testAddDocNullId_user() throws Exception, SQLException, ClassNotFoundException{
-		DBAccess dba = new DBAccess("org.h2.Driver", "jdbc:h2:mem:", "root", "password");
-		dba.initialize();
-		Date dat= new Date(System.currentTimeMillis());
-		long datelong= dat.getTime();
-		Documento d1 = new Documento(1,"ola","adeus", new Timestamp(datelong), -1);
-		d1.addDoc(dba);
-	}
-
 	
 	@Test (expected = NullPointerException.class)
 	public void testUpdateDocNullTitle() throws Exception, ClassNotFoundException, SQLException{

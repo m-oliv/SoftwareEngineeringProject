@@ -63,12 +63,19 @@ public class Documento {
 			reader = new BufferedReader (new FileReader(documentFile) );
 			// Linha 1: "title:"
 			readValue=reader.readLine();
+			
+			if(readValue.compareTo("title:")!=0)
+				throw new DocumentNotFormattedException("Document exists, but format is incorrect: No \"title:\" header.");
 			// Linha 2: "sometitle"
 			readValue=reader.readLine();
 			title=readValue;
 			readValue=reader.readLine();
+			if(readValue.compareTo("")!=0)
+				throw new DocumentNotFormattedException("Document exists, but format is incorrect: No new line after the title.");
 			// Linha 4: "body:"
 			readValue=reader.readLine();
+			if(readValue.compareTo("body:")!=0)
+				throw new DocumentNotFormattedException("Document exists, but format is incorrect: No \"body:\" header.");
 			// Linhas 5+: "anything goes"
 			readValue=reader.readLine();
 			body="";
@@ -131,28 +138,13 @@ public class Documento {
 	public void addDoc(DBAccess dbaccess) throws Exception {
 		// adicionar um documento a BD
 		
-		if (title.equals(null)) {
-			// se o titulo for null, lancar uma excepcao
-			throw new NullPointerException();
-		}
-		if (body.equals(null)) {
-			// se o corpo do documento for null, lancar uma excepcao
-			throw new NullPointerException();
-		}
-		if (id_user == -1) {
-			// se o ID do utilizador -1, lancar uma excepcao
-			throw new Exception("id_user wrong");
-		}
-		if (d_criacao.equals(null)) {
-			// se a data de criacao tiver o valor null, lancar uma excepcao
-			throw new NullPointerException();
-		} else {
+		
 			// caso contrario, adicionar o documento a BD
 			String sqlQuery = "INSERT INTO documentos VALUES( " + id + ", '"
 					+ title + "','" + body + "', '" + d_criacao + "','"
 					+ d_criacao + "', " + id_user + ")";
 			dbaccess.runQuery(sqlQuery);
-		}
+		
 	}
 
 

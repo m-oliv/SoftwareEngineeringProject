@@ -204,6 +204,11 @@ public class Main {
 				System.out.println("File does not exist.");
 				convertedOption=-1;
 			}
+			catch(DocumentNotFormattedException dnfe){
+				//houve falha com a base de dados.
+				System.out.println(dnfe.getMessage());
+				convertedOption=-1;
+			}
 			catch(Exception e){
 				//houve falha com a base de dados.
 				System.out.println(e.getMessage());
